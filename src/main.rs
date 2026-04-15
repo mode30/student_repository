@@ -112,7 +112,7 @@ fn main() {
         },
     ];
     // fn new(alias: Alias, name: String, age: u8, position: Position, department: Departments) -> Self
-    let  user_1 = Users::new(
+    let user_1 = Users::new(
         Alias::Mr,
         "Stephen".to_string(),
         84,
@@ -127,23 +127,23 @@ fn main() {
     //     .department(Departments::Chemical)
     person_1.push(user_1);
     // user_1.display_information();
-    let given_name="benjamin".to_string();
-    let result=Users::find_user(&person_1,&given_name).expect("invalid conversion");
+    let given_name = "benjamin".to_string();
+    // let result = Users::find_user(&person_1, &given_name).expect("invalid conversion");
+    let user_2 = Users::new(
+        Alias::Mr,
+        "Stephen".to_string(),
+        84,
+        Position::Principal,
+        Departments::Chemical,
+    );
+    let result = user_2.find_user(&person_1, &given_name);
+    if let Some(res)=  result{
+        println!("{:?}",res)
+        // Some(result)=>println("found:{:?}",result),
+        // None=>{}
 
-    for person in person_1.iter(){
-        if result == person.name{
-            return Some(person);
-        }else{
-            return None
-}
-        // return Ok(());
+
     }
-    // match result{
-    //     Ok()
-    // }
-    // for (index,person) in person_1.iter().enumerate(){
-    //  person_1[index]
-    // }
 }
 
 impl Users {
@@ -162,19 +162,37 @@ impl Users {
             department,
         }
     }
+    #[allow(dead_code)]
     fn display_information(&self) {
         println!(
             "{:?},Name:{}\nage:{},position:{:?}",
             self.alias, self.name, self.age, self.position
         )
     }
-    fn find_user(user_list: &Vec<Users>, given_name: &String) -> Result<String, String> {
+    // fn find_user(user_list: &Vec<Users>, given_name: &String) -> Result<String, String> {
+    fn find_user(&self, user_list: &Vec<Users>, given_name: &String) -> Option<&Users> {
+        // fn find_user(user_list: &Vec<Users>, given_name: &String) -> Option<u8> {
+        // let mut state = false;
         // fn find_user(user_list:&Vec<Users>,given_name:&String)->Result<(),String>{
-        for (_index, person) in user_list.iter().enumerate() {
+        for person in user_list.iter() {
             if (*given_name) == person.name {
-                return Ok(person.name.clone());
+                return Some(self);
+                // state =true;
+                // if let Some(found)=match state{
+                //     true=>println!("found name:");
             }
+            // return Some(person.position.)
+            // return Some(person.position::Student{grade})
+            // return Ok(person.name.clone());
         }
-        return Err(String::from("invalid entry"));
+        return None;
+        // for (_index, person) in user_list.iter().enumerate() {
+        //     if (*given_name) == person.name {
+        //         return Some(*person.position)
+        //         // return Ok(person.name.clone());
+        //     }
     }
+    // None
+    // return Err(String::from("invalid entry"));
 }
+// }
